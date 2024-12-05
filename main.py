@@ -114,7 +114,23 @@ def control_cursor(image, rects, clss, vals):
 
     r = gr_capped_best[0]
 
-    plt.text(r[0] + 5, r[1] - 15, "top", fontsize=9, color="black")
+    plt.text(r[0] + 5, r[1] - 15, "pointer", fontsize=9, color="black")
+    plt.axis("off")
+
+    if len(gr_capped_best) >= 3:
+        X_fng = [x + w // 2 for (x, _, w, _, _, _) in gr_capped_best[1:]]
+        Y_fng = [y + h // 2 for (_, y, _, h, _, _) in gr_capped_best[1:]]
+
+        # plt.plot(Y, X)
+        plt.plot(X_fng, Y_fng, color="black")
+        # plt.scatter(X, Y, color="black")
+        plt.text(
+            (X_fng[0] + X_fng[1]) // 2 + 5,
+            (Y_fng[0] + Y_fng[1]) // 2 - 5,
+            f"{round(np.linalg.norm(((X_fng[0]-X_fng[1])**2 + (Y_fng[0]-Y_fng[1])**2)**0.5))}",
+            fontsize=8,
+            color="black",
+        )
 
     disp = display.Display()
     screen = disp.screen()
